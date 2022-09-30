@@ -1,0 +1,22 @@
+[0;1;32m●[0m postgresql.service - PostgreSQL database server
+     Loaded: loaded (]8;;file://desktop-tophk2s.home/usr/lib/systemd/system/postgresql.service/usr/lib/systemd/system/postgresql.service]8;;; disabled; vendor preset: disabled)
+     Active: [0;1;32mactive (running)[0m since Fri 2022-09-30 09:16:52 CEST; 21s ago
+    Process: 205401 ExecStartPre=/usr/libexec/postgresql-check-db-dir postgresql (code=exited, status=0/SUCCESS)
+   Main PID: 205404 (postmaster)
+      Tasks: 8 (limit: 19002)
+     Memory: 16.7M
+        CPU: 61ms
+     CGroup: /system.slice/postgresql.service
+             ├─[0;38;5;245m 205404 /usr/bin/postmaster -D /var/lib/pgsql/data[0m
+             ├─[0;38;5;245m 205410 "postgres: logger "[0m
+             ├─[0;38;5;245m 205413 "postgres: checkpointer "[0m
+             ├─[0;38;5;245m 205414 "postgres: background writer "[0m
+             ├─[0;38;5;245m 205415 "postgres: walwriter "[0m
+             ├─[0;38;5;245m 205416 "postgres: autovacuum launcher "[0m
+             ├─[0;38;5;245m 205417 "postgres: stats collector "[0m
+             └─[0;38;5;245m 205419 "postgres: logical replication launcher "[0m
+
+Sep 30 09:16:52 desktop-tophk2s.home systemd[1]: Starting postgresql.service - PostgreSQL database server...
+Sep 30 09:16:52 desktop-tophk2s.home postmaster[205404]: 2022-09-30 09:16:52.059 CEST [205404] LOG:  redirecting log output to logging collector process
+Sep 30 09:16:52 desktop-tophk2s.home postmaster[205404]: 2022-09-30 09:16:52.059 CEST [205404] HINT:  Future log output will appear in directory "log".
+Sep 30 09:16:52 desktop-tophk2s.home systemd[1]: Started postgresql.service - PostgreSQL database server.
