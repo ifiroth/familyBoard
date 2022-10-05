@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HelloController extends AbstractController
+class HomeController extends AbstractController
 {
     /**
      * @var string[]
@@ -18,13 +18,13 @@ class HelloController extends AbstractController
         $this->links = LinkManager::getLinks();
     }
 
-    #[Route('/hello', name: 'app_hello')]
+    #[Route('/', name: 'home')]
     public function index(): Response
     {
-        return $this->render('hello/index.html.twig', [
-            'controller_name' => 'HelloController',
-            'action' => 'hello',
-            'links' => $this->links
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+            'action' => 'home',
+            'links' => $this->links,
         ]);
     }
 }

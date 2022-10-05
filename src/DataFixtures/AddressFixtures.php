@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 class AddressFixtures extends Fixture
 {
     const ADDRESSES = [
+        // name, description, streetNumber, streetName, city, postalCode
         ['Tennis', null, null, null, 'Mallemort', '13370'],
         ['Natation', null, null, null, 'Lambesc', '13410'],
         ['Basket', null, null, null, 'Sénas', '13560'],

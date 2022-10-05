@@ -10,6 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 class ActivityFixtures extends Fixture implements DependentFixtureInterface
 {
     const ACTIVITIES = [
+        // name, description, type, address_fk
         ['2F2C', '', 'Travail', 6],
         ['St-Michel', '', 'Ecole', 7],
         ['Adam de Craponne', '', 'Lycée', 8],

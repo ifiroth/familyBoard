@@ -10,6 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     const USERS = [
+        // firstname, lastname, birthdate, address_fk, parent_fk
         ['Louis',       'Fraineux', '2016-10-14', 5],
         ['Mathieu',     'Fraineux', '1988-09-20', 5],
         ['Noémie',      'Fraineux', '1988-06-02', 5],
