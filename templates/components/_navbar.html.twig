@@ -6,22 +6,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% for key, link in links %}
-                    {% if link is iterable %}
+                {% for link in links %}
+                    {% if link.children|length > 0 %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle{% if link == action %} active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ key }}
+                            <a class="nav-link dropdown-toggle{% if link.slug == action %} active{% endif %}" href="{{ link.slug }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ link.title }}
                             </a>
                             <ul class="dropdown-menu">
-                                {% for sublink in link %}
-                                    <li><a class="dropdown-item" href="{{ path(action) }}">{{ sublink }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path(link.slug) }}">{{ link.title }}</a></li>
+                                {% for child in link.children %}
+                                    <li><a class="dropdown-item" href="{{ path(child.slug) }}">{{ child.title }}</a></li>
                                 {%  endfor %}
                             </ul>
                         </li>
-                    {% else %}
+                    {% elseif link.parent is null %}
                         <li class="nav-item">
-                            <a class="nav-link{% if link == action %} active{% endif %}" aria-current="page" href="{{ path(action) }}">
-                                {{ link }}
+                            <a class="nav-link{% if link.slug == action %} active{% endif %}" aria-current="page" href="{{ path(link.slug) }}">
+                                {{ link.title }}
                             </a>
                         </li>
                     {% endif %}

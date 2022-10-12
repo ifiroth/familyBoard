@@ -2,28 +2,33 @@
 
 namespace App\Controller;
 
-use App\Manager\LinkManager;
+use App\Repository\LinkRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ActivityController extends AbstractController
 {
-    /**
-     * @var string[]
-     */
     private array $links;
 
-    public function __construct() {
-        $this->links = LinkManager::getLinks();
+    public function __construct(LinkRepository $linkRepository) {
+        $this->links = $linkRepository->findAll();
     }
 
     #[Route('/activity', name: 'activity')]
     public function index(): Response
     {
         return $this->render('activity/index.html.twig', [
-            'controller_name' => 'ActivityController',
             'action' => 'activity',
+            'links' => $this->links,
+        ]);
+    }
+
+    #[Route('/activity/create', name: 'activity_create')]
+    public function create(): Response
+    {
+        return $this->render('activity/create.html.twig', [
+            'action' => 'activity_create',
             'links' => $this->links,
         ]);
     }

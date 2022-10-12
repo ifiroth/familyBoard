@@ -22,19 +22,20 @@ class Activity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $type = null;
-
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'activities')]
-    private Collection $users;
-
     #[ORM\ManyToMany(targetEntity: Address::class, mappedBy: 'activities')]
     private Collection $addresses;
 
+    #[ORM\ManyToOne(inversedBy: 'activities')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ActivityCategory $category = null;
+
+    #[ORM\OneToMany(mappedBy: 'activity', targetEntity: PlannedActivity::class)]
+    private Collection $plannedActivities;
+
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->plannedActivities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,45 +67,6 @@ class Activity
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addActivity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeActivity($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Address>
      */
@@ -127,6 +89,48 @@ class Activity
     {
         if ($this->addresses->removeElement($address)) {
             $address->removeActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?ActivityCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?ActivityCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlannedActivity>
+     */
+    public function getPlannedActivities(): Collection
+    {
+        return $this->plannedActivities;
+    }
+
+    public function addPlannedActivity(PlannedActivity $plannedActivity): self
+    {
+        if (!$this->plannedActivities->contains($plannedActivity)) {
+            $this->plannedActivities->add($plannedActivity);
+            $plannedActivity->setActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlannedActivity(PlannedActivity $plannedActivity): self
+    {
+        if ($this->plannedActivities->removeElement($plannedActivity)) {
+            // set the owning side to null (unless already changed)
+            if ($plannedActivity->getActivity() === $this) {
+                $plannedActivity->setActivity(null);
+            }
         }
 
         return $this;

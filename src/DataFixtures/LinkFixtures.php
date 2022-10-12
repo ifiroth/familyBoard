@@ -9,25 +9,25 @@ use Doctrine\Persistence\ObjectManager;
 class LinkFixtures extends Fixture
 {
     const LINKS = [
-        // slug, title, parent
+        // slug, title, parent_fk
         ['activity', 'Activités', null],
-        ['activity_list', 'Liste des activités', 'activity'],
-        ['activity_create', 'Ajouter une activité', 'activity'],
+        ['activity_create', 'Ajouter une activité', 0],
         ['home', 'Accueil', null],
         ['hello', 'Bonjour', null],
+        ['threejs', 'Three.js', null]
     ];
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::LINKS as $l) {
+        foreach (self::LINKS as $k => $l) {
             $link = new Link();
             $link
                 ->setSlug($l[0])
                 ->setTitle($l[1])
             ;
-            if ($l[2]) $link->setParent($this->getReference($l[2]));
+            if ($l[2] !== null) $link->setParent($this->getReference('link-'. $l[2]));
 
-            $this->addReference($l[0], $link);
+            $this->addReference('link-'. $k, $link);
             $manager->persist($link);
         }
 

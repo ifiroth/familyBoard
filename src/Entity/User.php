@@ -16,6 +16,8 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
+    /* TODO : validation process @User entity : is unique slut concat($firstname, $lastname) ? */
+
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
@@ -25,20 +27,20 @@ class User
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'parents')]
-    private Collection $parents;
-
-    #[ORM\ManyToMany(targetEntity: Activity::class, inversedBy: 'users')]
-    private Collection $activities;
-
     #[ORM\ManyToOne(inversedBy: 'user')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Address $address = null;
 
+    #[ORM\ManyToMany(targetEntity: Child::class, mappedBy: 'user')]
+    private Collection $children;
+
+    #[ORM\ManyToMany(targetEntity: PlannedActivity::class, mappedBy: 'users')]
+    private Collection $plannedActivities;
+
     public function __construct()
     {
-        $this->parents = new ArrayCollection();
-        $this->activities = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->plannedActivities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,54 +84,6 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, self>
-     */
-    public function getParents(): Collection
-    {
-        return $this->parents;
-    }
-
-    public function addParent(self $parent): self
-    {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
-        }
-
-        return $this;
-    }
-
-    public function removeParent(self $parent): self
-    {
-        $this->parents->removeElement($parent);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Activity>
-     */
-    public function getActivities(): Collection
-    {
-        return $this->activities;
-    }
-
-    public function addActivity(Activity $activity): self
-    {
-        if (!$this->activities->contains($activity)) {
-            $this->activities->add($activity);
-        }
-
-        return $this;
-    }
-
-    public function removeActivity(Activity $activity): self
-    {
-        $this->activities->removeElement($activity);
-
-        return $this;
-    }
-
     public function getAddress(): ?Address
     {
         return $this->address;
@@ -138,6 +92,60 @@ class User
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Child>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(Child $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Child $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            $child->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlannedActivity>
+     */
+    public function getPlannedActivities(): Collection
+    {
+        return $this->plannedActivities;
+    }
+
+    public function addPlannedActivity(PlannedActivity $plannedActivity): self
+    {
+        if (!$this->plannedActivities->contains($plannedActivity)) {
+            $this->plannedActivities->add($plannedActivity);
+            $plannedActivity->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlannedActivity(PlannedActivity $plannedActivity): self
+    {
+        if ($this->plannedActivities->removeElement($plannedActivity)) {
+            $plannedActivity->removeUser($this);
+        }
 
         return $this;
     }

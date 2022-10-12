@@ -7,24 +7,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class ThreejsController extends AbstractController
 {
     /**
-     * @var string[]
+     * @var \App\Entity\Link[]
      */
     private array $links;
 
-    public function __construct(LinkRepository $linkRepository) {
+    public function __construct(LinkRepository $linkRepository)
+    {
         $this->links = $linkRepository->findAll();
     }
-
-    #[Route('/', name: 'home')]
+    
+    #[Route('/threejs', name: 'threejs')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'action' => 'home',
+        return $this->render('threejs/index.html.twig', [
+            'action' => 'threejs',
             'links' => $this->links,
+            'js' => 'threejs',
         ]);
     }
 }

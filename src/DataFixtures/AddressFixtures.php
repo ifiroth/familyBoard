@@ -23,7 +23,7 @@ class AddressFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::ADDRESSES as $a) {
+        foreach (self::ADDRESSES as $k => $a) {
             $address = new Address();
             $address
                 ->setName($a[0])
@@ -33,7 +33,7 @@ class AddressFixtures extends Fixture
                 ->setCity($a[4])
                 ->setPostalCode($a[5])
             ;
-            $this->addReference($a[0], $address);
+            $this->addReference('address-'. $k, $address);
             $manager->persist($address);
         }
 

@@ -10,28 +10,30 @@ use Doctrine\Persistence\ObjectManager;
 class ActivityFixtures extends Fixture implements DependentFixtureInterface
 {
     const ACTIVITIES = [
-        // name, description, type, address_fk
-        ['2F2C', '', 'Travail', 6],
-        ['St-Michel', '', 'Ecole', 7],
-        ['Adam de Craponne', '', 'Lycée', 8],
-        ['Basket', '', 'Sport', 2],
-        ['Tennis', '', 'Sport', 0],
-        ['Solfège', '', 'Musique', 4],
-        ['Piano', '', 'Musique', 4],
-        ['Natation', '', 'Sport', 1],
-        ['Rugby', '', 'Sport', 3],
+        // name, description, address_fk, activity_category_slug
+        ['2F2C', '', 6, 0],
+        ['St-Michel', '',  7, 1],
+        ['Adam de Craponne', '', 8, 4],
+        ['Basket', '', 2, 2],
+        ['Tennis', '', 0, 2],
+        ['Solfège', '', 4, 3],
+        ['Piano', '', 4, 3],
+        ['Natation', '', 1, 2],
+        ['Rugby', '', 3, 2],
     ];
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::ACTIVITIES as $a) {
+        foreach (self::ACTIVITIES as $k => $a) {
             $activity = new Activity();
             $activity
                 ->setName($a[0])
                 ->setDescription($a[1])
-                ->setType($a[2])
-                ->addAddress($this->getReference(AddressFixtures::ADDRESSES[$a[3]][0]))
+                ->addAddress($this->getReference('address-'. $a[2]))
+                ->setCategory($this->getReference('activity-category-'. $a[3]))
             ;
+
+            $this->addReference('activity-'. $k, $activity);
 
             $manager->persist($activity);
         }
@@ -43,6 +45,7 @@ class ActivityFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             AddressFixtures::class,
+            ActivityCategoryFixtures::class,
         ];
     }
 }
