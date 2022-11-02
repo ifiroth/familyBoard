@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,7 +9,7 @@
                 {% for link in links %}
                     {% if link.children|length > 0 %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle{% if link.slug == action %} active{% endif %}" href="{{ link.slug }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle{% if link.slug == action %} active{% endif %}" href="{{ path(link.slug) }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ link.title }}
                             </a>
                             <ul class="dropdown-menu">
@@ -19,7 +19,7 @@
                                 {%  endfor %}
                             </ul>
                         </li>
-                    {% elseif link.parent is null %}
+                    {% elseif link.parent is null and link.slug != 'home' %}
                         <li class="nav-item">
                             <a class="nav-link{% if link.slug == action %} active{% endif %}" aria-current="page" href="{{ path(link.slug) }}">
                                 {{ link.title }}

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/threejs',)]
 class ThreejsController extends AbstractController
 {
     /**
@@ -19,7 +20,7 @@ class ThreejsController extends AbstractController
         $this->links = $linkRepository->findAll();
     }
     
-    #[Route('/threejs', name: 'threejs')]
+    #[Route('/', name: 'threejs')]
     public function index(): Response
     {
         return $this->render('threejs/index.html.twig', [

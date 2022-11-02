@@ -32,10 +32,18 @@ class Activity
     #[ORM\OneToMany(mappedBy: 'activity', targetEntity: PlannedActivity::class)]
     private Collection $plannedActivities;
 
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->plannedActivities = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -132,6 +140,18 @@ class Activity
                 $plannedActivity->setActivity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

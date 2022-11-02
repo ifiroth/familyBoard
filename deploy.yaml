@@ -1,0 +1,17 @@
+import: 
+  - recipe/symfony.php
+
+config:
+  repository: 'https://github.com/ifiroth/familyBoard'
+
+hosts:
+  fraineux.fr:
+    remote_user: deployer
+    deploy_path: '~/familyBoard'
+
+tasks:
+  build:
+    - run: uptime  
+
+after:
+  deploy:failed: deploy:unlock

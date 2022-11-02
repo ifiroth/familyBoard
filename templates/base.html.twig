@@ -10,10 +10,10 @@
         {% endblock %}
     </head>
     <body>
-        {% include 'components/_navbar.html.twig' %}
+        {% include '_components/_navbar.html.twig' %}
         {% if title is defined %}<h1>title</h1>{% endif %}
         {% block body %}{% endblock %}
-        {% include 'components/_footer.html.twig' %}
+        {% include '_components/_footer.html.twig' %}
         {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
         {% if js is defined %}

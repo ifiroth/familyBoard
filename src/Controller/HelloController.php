@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\LinkRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/hello', methods: 'GET', requirements: ['_locale' => 'fr'])]
 class HelloController extends AbstractController
 {
     /**
@@ -13,10 +15,11 @@ class HelloController extends AbstractController
      */
     private array $links = [];
 
-    public function __construct() {
+    public function __construct(LinkRepository $linkRepository) {
+        $this->links = $linkRepository->findAll();
     }
 
-    #[Route('/hello', name: 'hello')]
+    #[Route('/', name: 'hello')]
     public function index(): Response
     {
          return $this->render('hello/index.html.twig', [

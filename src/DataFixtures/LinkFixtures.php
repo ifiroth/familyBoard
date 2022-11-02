@@ -9,12 +9,15 @@ use Doctrine\Persistence\ObjectManager;
 class LinkFixtures extends Fixture
 {
     const LINKS = [
-        // slug, title, parent_fk
-        ['activity', 'Activités', null],
-        ['activity_create', 'Ajouter une activité', 0],
-        ['home', 'Accueil', null],
-        ['hello', 'Bonjour', null],
-        ['threejs', 'Three.js', null]
+        // slug, title, parent_fk, sort_order
+        ['activity', 'Activités', null, null],
+        ['activity_now', 'Cette semaine', 0, 1],
+        ['activity_regular', 'Hebdomadaire', 0, 2],
+        ['activity_casual', 'Evenementiel', 0, 3],
+        ['activity_plan', 'Planifier une activité', 0, 4],
+        ['home', 'Accueil', null, null],
+        ['hello', 'Bonjour', null, null],
+        ['threejs', 'Three.js', null, null]
     ];
 
     public function load(ObjectManager $manager): void

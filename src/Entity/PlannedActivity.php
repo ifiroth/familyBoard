@@ -34,7 +34,7 @@ class PlannedActivity
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'plannedActivities')]
     private Collection $users;
 
-    #[ORM\ManyToOne(inversedBy: 'plannedActivities')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'plannedActivities')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Activity $activity = null;
 
@@ -143,5 +143,9 @@ class PlannedActivity
         $this->activity = $activity;
 
         return $this;
+    }
+
+    public function __toString(): string {
+        return $this->activity;
     }
 }

@@ -1,0 +1,4 @@
+<form action="{{ path('activity_edit', {'plannedActivity': activity }) }}" method="post")>
+    <input type="text" value="{{ activity }}" name="activity_name">
+</form>
+<a href="{{ path('activity_close', {'plannedActivity': activity }) }}">Enregistrer et fermer</a>

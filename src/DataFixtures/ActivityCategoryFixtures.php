@@ -9,12 +9,12 @@ use Doctrine\Persistence\ObjectManager;
 class ActivityCategoryFixtures extends Fixture
 {
     const ACTIVITY_CATEGORIES = [
-        // name, slug
-        ['Travail', 'work'],
-        ['Ecole', 'school'],
-        ['Sport', 'sport'],
-        ['Musique', 'music'],
-        ['Lycée', 'high-school'],
+        // name, slug, color
+        ['Travail', 'work', 'faa916'],
+        ['Ecole', 'school', '96031a'],
+        ['Sport', 'sport', '326771'],
+        ['Musique', 'music', '9cec5b'],
+        ['Lycée', 'high-school', 'e88873'],
     ];
 
     public function load(ObjectManager $manager): void

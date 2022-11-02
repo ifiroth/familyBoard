@@ -24,9 +24,17 @@ class ActivityCategory
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Activity::class)]
     private Collection $activities;
 
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->activities = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -84,6 +92,18 @@ class ActivityCategory
                 $activity->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

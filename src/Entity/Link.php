@@ -25,7 +25,11 @@ class Link
     private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    #[ORM\OrderBy(value: ["sortOrder" => "ASC"])]
     private Collection $children;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $sortOrder = null;
 
     public function __construct()
     {
@@ -106,5 +110,17 @@ class Link
     public function __toString(): string
     {
         return $this->getTitle();
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(?int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
+
+        return $this;
     }
 }
