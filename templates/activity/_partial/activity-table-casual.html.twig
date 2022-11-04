@@ -1,0 +1,30 @@
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Jour</th>
+        {% for h in dayStart..dayEnd %}
+            <th scope="col" colspan="2">{{ h }}h</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if casualActivities %}
+
+        {% for activity in casualActivities %}
+            <tr>
+                <td>{{ activity.date|formatDate }}</td>
+                <td colspan="{{ getHourGap(dayStart, activity.timeStart) }}"></td>
+                <td colspan="{{ getHourGap(activity.timeStart, activity.timeEnd) }}">
+
+                    <a href="{{ path('activity_view', { 'plannedActivity': activity.id }) }}"
+                       class="badge rounded-pill w-100 d-inline-flex justify-content-between text-decoration-none link-light" style="background-color:#{{ activity.activity.category.color }};">
+                        <span>{{ activity.timeStart|formatHour }}</span>
+                        <span>{{ activity.activity }}</span>
+                        <span>{{ activity.timeEnd|formatHour }}</span>
+                    </a>
+                <td colspan="{{ getHourGap(activity.timeEnd,  dayEnd) }}"></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>

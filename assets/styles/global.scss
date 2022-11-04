@@ -1,0 +1,15 @@
+// assets/css/global.scss
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
+
+.link-orange {
+  color: $orange;
+}
+
+.link-orange:hover {
+  color: darken($orange, 10%);
+}
+
+body {
+    // background-color: blue;
+}

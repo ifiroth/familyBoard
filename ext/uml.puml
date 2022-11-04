@@ -1,0 +1,30 @@
+@startuml
+hide circle
+
+class Medic {
+    name: varchar { unique }
+    desc_fr: varchar
+    desc_lat: varchar
+    nb: integer
+}
+
+class CounterIndication {
+    code: integer { unique }
+    desc: varchar
+}
+
+
+class Component {
+    code: integer { unique }
+    desc: varchar
+}
+
+Medic "1" -- "*" CounterIndication : has
+Medic "0..*" - "*" Component : is made of
+
+@enduml
+
+Medic(#name : varchar, desc_fr : varchar, desc_lat : varchar, nb : integer)
+CounterIndication()
+Component()
+Medic_Component(#medic : varchar, #component: integer, weigth: real)

@@ -8,12 +8,24 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
     </head>
     <body>
+        {% include '_components/_navbar.html.twig' %}
+        {% if title is defined %}<h1>title</h1>{% endif %}
         {% block body %}{% endblock %}
+        {% include '_components/_footer.html.twig' %}
+        {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        {% if js is defined %}
+            {% if js is iterable %}
+                {% for js_file in js %}
+                    {{ encore_entry_script_tags(js_file) }}
+                {% endfor %}
+            {% else %}
+                {{ encore_entry_script_tags(js) }}
+            {% endif %}
+        {% endif %}
+        {% endblock %}
+
     </body>
 </html>
