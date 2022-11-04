@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UserActivityRepository;
+use App\Repository\FamilyMemberActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserActivityRepository::class)]
+#[ORM\Entity(repositoryClass: FamilyMemberActivityRepository::class)]
 class PlannedActivity
 {
     #[ORM\Id]
@@ -20,6 +21,7 @@ class PlannedActivity
     private ?int $dayOfWeek = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\GreaterThan('today')]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
@@ -31,8 +33,8 @@ class PlannedActivity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Comment = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'plannedActivities')]
-    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: FamilyMember::class, inversedBy: 'plannedActivities')]
+    private Collection $familyMembers;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'plannedActivities')]
     #[ORM\JoinColumn(nullable: false)]
@@ -40,7 +42,7 @@ class PlannedActivity
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->familyMembers = new ArrayCollection();
         $this->activities = new ArrayCollection();
     }
 
@@ -110,25 +112,25 @@ class PlannedActivity
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, FamilyMember>
      */
-    public function getUsers(): Collection
+    public function getFamilyMembers(): Collection
     {
-        return $this->users;
+        return $this->familyMembers;
     }
 
-    public function addUser(User $user): self
+    public function addFamilyMember(FamilyMember $familyMember): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->familyMembers->contains($familyMember)) {
+            $this->familyMembers->add($familyMember);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeFamilyMember(FamilyMember $familyMember): self
     {
-        $this->users->removeElement($user);
+        $this->familyMembers->removeElement($familyMember);
 
         return $this;
     }

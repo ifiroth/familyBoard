@@ -15,7 +15,7 @@ class ActivityType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('type')
-            ->add('users')
+            ->add('familyMembers')
             ->add('addresses')
         ;
     }

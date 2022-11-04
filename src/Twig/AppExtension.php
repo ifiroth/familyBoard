@@ -17,6 +17,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('formatDayOfWeek', [$this, 'formatDayOfWeek']),
             new TwigFilter('formatHour', [$this, 'formatHour']),
+            new TwigFilter('formatDate', [$this, 'formatDate']),
             new TwigFilter('dateToPaneTitle', [$this, 'dateToPaneTitle']),
             ];
     }
@@ -61,6 +62,15 @@ class AppExtension extends AbstractExtension
         $diff = date_diff($start, $end);
 
         return $diff->format('%H:%I');
+    }
+
+    public function formatDate(\DateTime $date): string
+    {
+        list($n, $d, $m) = explode(':', date_format($date, 'N:d:m'));
+
+        $n = $this->formatDayOfWeek(++$n %7);
+
+        return "$n $d/$m";
     }
 
     public function formatHour(\DateTime $time): string

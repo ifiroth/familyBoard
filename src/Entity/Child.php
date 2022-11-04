@@ -15,16 +15,16 @@ class Child
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'children')]
-    private Collection $user;
+    #[ORM\ManyToMany(targetEntity: FamilyMember::class, inversedBy: 'children')]
+    private Collection $familyMember;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $parent = null;
+    private ?FamilyMember $parent = null;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->familyMember = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -33,35 +33,35 @@ class Child
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, FamilyMember>
      */
-    public function getUser(): Collection
+    public function getFamilyMember(): Collection
     {
-        return $this->user;
+        return $this->familyMember;
     }
 
-    public function addUser(User $user): self
+    public function addFamilyMember(FamilyMember $familyMember): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
+        if (!$this->familyMember->contains($familyMember)) {
+            $this->familyMember->add($familyMember);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeFamilyMember(FamilyMember $familyMember): self
     {
-        $this->user->removeElement($user);
+        $this->familyMember->removeElement($familyMember);
 
         return $this;
     }
 
-    public function getParent(): ?User
+    public function getParent(): ?FamilyMember
     {
         return $this->parent;
     }
 
-    public function setParent(User $parent): self
+    public function setParent(FamilyMember $parent): self
     {
         $this->parent = $parent;
 

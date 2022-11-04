@@ -5,7 +5,7 @@ const $ = require('jquery');
 require('bootstrap');
 
 window.onload = () => {
-    let reciepes = [
+    let recipes = [
         { label: 'Gateau au chocolat', value: 'GAD' },
         { label: 'Gateau royal à la vanille exquis', value: 'GRAVE' },
         { label: 'Gateau royal obtenu soudainement', value: 'GROS' },
@@ -19,7 +19,7 @@ window.onload = () => {
         input: oSearch,
         fetch: (text, update) => {
             text = text.toLowerCase()
-            let suggestions = reciepes.filter(n => n.label.toLowerCase().startsWith(text))
+            let suggestions = recipes.filter(n => n.label.toLowerCase().startsWith(text))
             update(suggestions)
         },
         onSelect: function(item) {

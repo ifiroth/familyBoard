@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture implements DependentFixtureInterface
+class FamilyMemberFixtures extends Fixture implements DependentFixtureInterface
 {
     const USERS = [
         // firstname, lastname, birthdate, address_fk

@@ -37,13 +37,13 @@ class Address
     #[ORM\ManyToMany(targetEntity: Activity::class, inversedBy: 'addresses')]
     private Collection $activities;
 
-    #[ORM\OneToMany(mappedBy: 'address', targetEntity: User::class)]
-    private Collection $user;
+    #[ORM\OneToMany(mappedBy: 'address', targetEntity: FamilyMember::class)]
+    private Collection $familyMember;
 
     public function __construct()
     {
         $this->activities = new ArrayCollection();
-        $this->user = new ArrayCollection();
+        $this->familyMember = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,29 +148,29 @@ class Address
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, FamilyMember>
      */
-    public function getUser(): Collection
+    public function getFamilyMember(): Collection
     {
-        return $this->user;
+        return $this->familyMember;
     }
 
-    public function addUser(User $user): self
+    public function addFamilyMember(FamilyMember $familyMember): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setAddress($this);
+        if (!$this->familyMember->contains($familyMember)) {
+            $this->familyMember->add($familyMember);
+            $familyMember->setAddress($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeFamilyMember(FamilyMember $familyMember): self
     {
-        if ($this->user->removeElement($user)) {
+        if ($this->familyMember->removeElement($familyMember)) {
             // set the owning side to null (unless already changed)
-            if ($user->getAddress() === $this) {
-                $user->setAddress(null);
+            if ($familyMember->getAddress() === $this) {
+                $familyMember->setAddress(null);
             }
         }
 

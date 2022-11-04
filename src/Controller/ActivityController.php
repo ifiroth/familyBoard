@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\PlannedActivity;
+use App\Form\ActivityType;
 use App\Form\PlannedActivityType;
 use App\Repository\PlannedActivityRepository;
 use App\Repository\LinkRepository;
 use App\Service\SessionManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -47,9 +49,19 @@ class ActivityController extends AbstractController
             }
         }
 
+        $forms = [];
+
         foreach($openedActivities as &$activity)
         {
             $activity = $plannedActivityRepository->findIt($activity);
+            $form = $this->createForm(PlannedActivityType::class, $activity, [
+                'attr' => [
+                        'id' => $activity->getId(),
+                        'class' => 'plannedActivityForm'
+                    ],
+                ]
+            );
+            $forms[$activity->getId()] = $form->createView();
 
             if (!$activePane && $activity->getId() == $id) {
                 $activePane = $id;
@@ -72,6 +84,8 @@ class ActivityController extends AbstractController
             'openedActivities' => $openedActivities,
             'activePane' => $activePane,
             'editedActivities' => $editedActivities,
+            'forms' => $forms,
+            'emptyForm' => $this->createForm(PlannedActivityType::class)->createView(),
         ]);
     }
 
@@ -103,30 +117,44 @@ class ActivityController extends AbstractController
      *  For each method, his statement
      *  PUT : Post New entity
      *  PATCH : Update existing
-     *  GET : Fetch an empty form to post new entity
      */
-    #[Route('/plan/{plannedActivity}', name: 'activity_plan', methods: ['GET', 'POST'])]
-    public function plan(Request $request, EntityManager $em, PlannedActivity $plannedActivity = null): Response
+    #[Route('/plan/', name: 'activity_plan', methods: ['POST', 'PATCH'])]
+    public function plan(Request $request, EntityManagerInterface $em): Response
     {
         // Create a form with an empty new PlannedActivity entity
-        if (!$plannedActivity) {
-            $plannedActivity = new PlannedActivity();
-            $this->sessionManager->addActivity($plannedActivity->getId(), 'edit');
-        }
+        $id = $request->query->get('id') ?? null;
 
         $form = $this->createForm(PlannedActivityType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted())
         {
-            $data = $form->getData();
+            $plannedActivity = $form->getData();
+            $em->persist($plannedActivity);
+
+            if ($form->isValid()) {
+
+                // TODO : AddEvent on presubmit to nullify DayOfWeek or Date, depending on which one is choosen
+                // Add a custom choice field in form to fill one or another
+
+                $em->persist($plannedActivity);
+                $em->flush();
+
+            } else {
+                if ($id) {
+
+                }
+            }
+
+            $this->sessionManager->addActivity($id, 'edit');
+
+            return $this->redirectToRoute('activity', [
+                'pane' => $plannedActivity->getId(),
+            ]);
         }
 
-        $em->flush();
-        $em->persist($plannedActivity);
-
         return $this->redirectToRoute('activity', [
-            'pane' => $plannedActivity,
+            'pane' => 'now'
         ]);
     }
 
@@ -149,14 +177,6 @@ class ActivityController extends AbstractController
 
         return $this->redirectToRoute('activity', [
             'pane' => 'now',
-        ]);
-    }
-
-    #[Route('/edit/{plannedActivity}', name: 'activity_edit', methods: ['POST'])]
-    public function edit(PlannedActivity $plannedActivity): Response {
-
-        return $this->redirectToRoute('activity', [
-            'pane' => $plannedActivity->getId(),
         ]);
     }
 }

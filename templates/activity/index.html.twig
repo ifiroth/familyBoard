@@ -54,7 +54,7 @@
         {% block activity_panes %}
             {% for activity in openedActivities %}
             <div class="tab-pane fade{% if activity.id == activePane %} show active{% endif %}" id="detail-activity-{{ activity.id }}">
-                {% include 'activity/_partial/activity-table-detail.html.twig' with {'detailedActivity': activity} %}
+                {% include 'activity/_partial/activity-table-plan.html.twig' with {'detailedActivity': activity} %}
             </div>
             {% endfor %}
         {% endblock %}
