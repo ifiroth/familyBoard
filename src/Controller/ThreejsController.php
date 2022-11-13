@@ -23,7 +23,7 @@ class ThreejsController extends AbstractController
     #[Route('/', name: 'threejs')]
     public function index(): Response
     {
-        return $this->render('threejs/index.html.twig', [
+        return $this->render('threejs/index.php.twig', [
             'action' => 'threejs',
             'links' => $this->links,
             'js' => 'threejs',

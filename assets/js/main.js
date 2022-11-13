@@ -1,7 +1,8 @@
 //assets/js/hello.js
+
 const moment = require('moment')
 const autocomplete = require('autocompleter')
-const $ = require('jquery');
+
 require('bootstrap');
 
 window.onload = () => {
