@@ -22,7 +22,7 @@ class HelloController extends AbstractController
     #[Route('/', name: 'hello')]
     public function index(): Response
     {
-         return $this->render('hello/index.html.twig', [
+         return $this->render('hello/index.php.twig', [
             'controller_name' => 'HelloController',
             'action' => 'hello',
             'links' => $this->links,

@@ -3,14 +3,13 @@
 namespace App\Form;
 
 use App\Entity\PlannedActivity;
+use App\Form\EventListener\SetPlannedActivityDate;
+use App\Form\Field\SwitchDateType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,11 +39,33 @@ class PlannedActivityType extends AbstractType
         ];
 
         $builder
+            ->add('switchDate', CheckBoxType::class, [
+                'mapped' => false,
+                'row_attr' => [
+                    'class' => 'form-check form-switch'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label',
+                ],
+                'label' => 'Jour de la semaine',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                    'checked' => 'checked',
+                ],
+            ])
             ->add('dayOfWeek', ChoiceType::class, [
                 'label' => 'Jour de la semaine',
                 'choices' => $dates,
+                'row_attr' => [
+                    'class' => 'day-of-week-row'
+                ]
             ])
-            ->add('date', DateType::class)
+            ->add('date', DateType::class,[
+                'row_attr' => [
+                    'class' => 'date-row'
+                ]
+            ])
             ->add('time_start', TimeType::class)
             ->add('time_end', TimeType::class)
             ->add('Comment', TextareaType::class, [
@@ -52,6 +73,7 @@ class PlannedActivityType extends AbstractType
             ])
             ->add('familyMembers')
             ->add('activity')
+            ->addEventSubscriber(new SetPlannedActivityDate())
         ;
 
         if ($id) {

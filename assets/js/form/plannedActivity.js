@@ -1,33 +1,11 @@
 (window.onload = () => {
-    const oForms = document.querySelectorAll('form.plannedActivityForm')
+    const $ = require('jquery');
 
-
-
-    oForms.forEach((oForm) => {
-        const oEventTypeChoice = oForm.querySelector('#flexSwitchCheckDefault')
-
-        const oDayOfWeekInput = oForm.querySelector('#planned_activity_dayOfWeek')
-        oDayOfWeekInput.parentElement.setAttribute('data-display', window.getComputedStyle(oDayOfWeekInput.parentElement).display)
-        const oDate = oForm.querySelector('#planned_activity_date')
-        oDate.parentElement.setAttribute('data-display', window.getComputedStyle(oDate.parentElement).display)
-        toggleDisplay(oDayOfWeekInput)
-
-        oEventTypeChoice.addEventListener('change', () => {
-            toggleDisplay(oDayOfWeekInput)
-            toggleDisplay(oDate)
+    $('form.plannedActivityForm').each(function() {
+        $(this).find('.date-row').toggle()
+        $(this).find('#planned_activity_switchDate').change(() => {
+            $(this).find('.day-of-week-row').toggle()
+            $(this).find('.date-row').toggle()
         })
     })
-
-    function toggleDisplay(element) {
-
-        const oParent = element.parentElement
-        const display = oParent.getAttribute('data-display')
-
-        if (window.getComputedStyle(oParent).display === display) {
-            oParent.style.display = 'none'
-        } else {
-            oParent.style.display = display
-        }
-    }
-
 })

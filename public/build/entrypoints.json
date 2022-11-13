@@ -2,21 +2,31 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/878.5b156c94.js",
-        "/build/461.0595e6ae.js",
-        "/build/app.d875ff85.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_core-js_internals_a-constructor_js-node_modules_core-js_internals_array--797d7f.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_autocompleter_autocom-b16cd3.js",
+        "/build/app.js"
       ],
       "css": [
-        "/build/app.05932b70.css"
+        "/build/app.css"
       ]
     },
     "threejs": {
       "js": [
-        "/build/runtime.725dd7e0.js",
-        "/build/878.5b156c94.js",
-        "/build/402.bf18d66a.js",
-        "/build/threejs.f86c14c3.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_core-js_internals_a-constructor_js-node_modules_core-js_internals_array--797d7f.js",
+        "/build/vendors-node_modules_core-js_modules_es_array-buffer_slice_js-node_modules_core-js_modules_es-b49f3a.js",
+        "/build/threejs.js"
+      ]
+    },
+    "activity_form": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_add-to-unscopables_js-node_modules_core-js_internals_a-dd2802.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_find_js-node_modules_jquery_dist_jquery_js.js",
+        "/build/activity_form.js"
       ]
     }
   }

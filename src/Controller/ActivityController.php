@@ -35,7 +35,12 @@ class ActivityController extends AbstractController
     {
 
         $activityLink = $this->linkRepository->findOneBy(['slug' => 'activity']);
-        $defaultPanes = $activityLink->getChildren();
+        if ($activityLink) {
+            $defaultPanes = $activityLink->getChildren();
+        } else {
+            $defaultPanes = [];
+        }
+
 
         $openedActivities = $this->sessionManager->getActivities('view');
         $editedActivities = $this->sessionManager->getActivities('edit');
@@ -86,6 +91,7 @@ class ActivityController extends AbstractController
             'editedActivities' => $editedActivities,
             'forms' => $forms,
             'emptyForm' => $this->createForm(PlannedActivityType::class)->createView(),
+            'js' => 'activity_form',
         ]);
     }
 
