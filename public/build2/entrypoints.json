@@ -1,0 +1,19 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "threejs": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "activity_form": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    }
+  }
+}
