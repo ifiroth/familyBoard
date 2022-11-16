@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class SessionManager
 {
-    private array $modes = ['view', 'edit'];
     private RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack) {
@@ -14,51 +13,38 @@ class SessionManager
         $this->requestStack = $requestStack;
     }
 
-    public function addActivity(int $id, string $mode): bool {
+    public function addPlannedActivityForm(?int $id = null, $form): bool {
 
-        if (!in_array($mode, $this->modes)) {
-            return false;
-        }
+        $forms = $this->getPlannedActivityForms();
+        $forms[$id] = $form;
 
-        $activities = $this->getActivities($mode);
-
-        if (!in_array($id, $activities)) {
-            $activities[] = $id;
-
-            $session = $this->requestStack->getSession();
-            $session->set($mode .'Activities', $activities);
-        }
+        $session = $this->requestStack->getSession();
+        $session->set('plannedActivityForms', $forms);
 
         return true;
     }
 
-    public function getActivities($mode): array
+    public function getPlannedActivityForms(?int $id = null): array
     {
-        if (!in_array($mode, $this->modes)) {
-            return [];
-        }
-
         $session = $this->requestStack->getSession();
+        $forms = $session->get( 'plannedActivityForms', []);
 
-        return $session->get($mode .'Activities', []);
+        if ($id === null) {
+            return $forms;
+
+        } else {
+            return (isset($forms[$id]))? $forms[$id] : [];
+        }
     }
 
-    public function removeActivity(int $id, string $mode): bool
+    public function removePlannedActivityForm(int $id): bool
     {
-        if (!in_array($mode, $this->modes)) {
-
-            return false;
-        }
-
-        $activities = $this->getActivities($mode);
-
-        if (in_array($id, $activities)) {
-            $key = array_search($id, $activities);
-
-            unset($activities[$key]);
+        if ($this->getPlannedActivityForms($id)) {
 
             $session = $this->requestStack->getSession();
-            $session->set($mode .'Activities', $activities);
+            $forms = $session->get( 'plannedActivityForms', []);
+            unset($forms[$id]);
+            $session->set('plannedActivityForms', $forms);
 
             return true;
 

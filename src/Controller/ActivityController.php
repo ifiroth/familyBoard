@@ -41,7 +41,6 @@ class ActivityController extends AbstractController
             $defaultPanes = [];
         }
 
-
         $openedActivities = $this->sessionManager->getActivities('view');
         $editedActivities = $this->sessionManager->getActivities('edit');
 
@@ -56,7 +55,9 @@ class ActivityController extends AbstractController
 
         $forms = [];
 
-        foreach($openedActivities as &$activity)
+        dump(array_keys($openedActivities));
+
+        foreach(array_keys($openedActivities) as &$activity)
         {
             $activity = $plannedActivityRepository->findIt($activity);
             $form = $this->createForm(PlannedActivityType::class, $activity, [
@@ -136,24 +137,21 @@ class ActivityController extends AbstractController
         if ($form->isSubmitted())
         {
             $plannedActivity = $form->getData();
-            $em->persist($plannedActivity);
 
             if ($form->isValid()) {
-
-                // TODO : AddEvent on presubmit to nullify DayOfWeek or Date, depending on which one is choosen
-                // Add a custom choice field in form to fill one or another
 
                 $em->persist($plannedActivity);
                 $em->flush();
 
+                // TODO : Add success flash msg
+
             } else {
-                if ($id) {
 
-                }
+                $errors = $form->getErrors(true);
+                dump($plannedActivity);
+
+                $this->sessionManager->addActivity($id, 'edit');
             }
-
-            $this->sessionManager->addActivity($id, 'edit');
-
             return $this->redirectToRoute('activity', [
                 'pane' => $plannedActivity->getId(),
             ]);

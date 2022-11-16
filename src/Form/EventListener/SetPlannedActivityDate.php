@@ -10,16 +10,19 @@ class SetPlannedActivityDate implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {
+        /*
         return [
             FormEvents::POST_SUBMIT   => 'onPostSubmit',
         ];
+         */
+        return [];
     }
 
     public function onPostSubmit(FormEvent $event): void
     {
+        /*
         $plannedActivity = $event->getData();
         $form = $event->getForm();
-
-        dd($form->get('switchDate')->getData());
+        */
     }
 }
