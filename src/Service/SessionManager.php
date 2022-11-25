@@ -13,13 +13,14 @@ class SessionManager
         $this->requestStack = $requestStack;
     }
 
-    public function addPlannedActivityForm(?int $id = null, $form): bool {
+    public function addPlannedActivityForm(int $id): bool {
 
         $forms = $this->getPlannedActivityForms();
-        $forms[$id] = $form;
+        $forms[$id] = null;
 
         $session = $this->requestStack->getSession();
         $session->set('plannedActivityForms', $forms);
+
 
         return true;
     }
@@ -44,6 +45,7 @@ class SessionManager
             $session = $this->requestStack->getSession();
             $forms = $session->get( 'plannedActivityForms', []);
             unset($forms[$id]);
+
             $session->set('plannedActivityForms', $forms);
 
             return true;

@@ -42,7 +42,7 @@ class PlannedActivityType extends AbstractType
             ->add('switchDate', CheckBoxType::class, [
                 'mapped' => false,
                 'row_attr' => [
-                    'class' => 'form-check form-switch'
+                    'class' => 'form-check form-switch col-6'
                 ],
                 'label_attr' => [
                     'class' => 'form-check-label',
@@ -58,18 +58,29 @@ class PlannedActivityType extends AbstractType
                 'label' => 'Jour de la semaine',
                 'choices' => $dates,
                 'row_attr' => [
-                    'class' => 'day-of-week-row'
+                    'class' => 'day-of-week-row col-6',
                 ]
             ])
             ->add('date', DateType::class,[
                 'row_attr' => [
-                    'class' => 'date-row'
+                    'class' => 'date-row col-6',
                 ]
             ])
-            ->add('time_start', TimeType::class)
-            ->add('time_end', TimeType::class)
+            ->add('time_start', TimeType::class, [
+                'row_attr' => [
+                    'class' => 'col-6',
+                ]
+            ])
+            ->add('time_end', TimeType::class, [
+                'row_attr' => [
+                    'class' => 'col-6',
+                ]
+            ])
             ->add('Comment', TextareaType::class, [
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'col-6',
+                ]
             ])
             ->add('familyMembers')
             ->add('activity')
