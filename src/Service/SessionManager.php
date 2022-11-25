@@ -21,7 +21,6 @@ class SessionManager
         $session = $this->requestStack->getSession();
         $session->set('plannedActivityForms', $forms);
 
-
         return true;
     }
 

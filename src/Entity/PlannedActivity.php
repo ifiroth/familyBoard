@@ -31,7 +31,7 @@ class PlannedActivity
     private ?\DateTimeInterface $time_end = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Comment = null;
+    private ?string $comment = null;
 
     #[ORM\ManyToMany(targetEntity: FamilyMember::class, inversedBy: 'plannedActivities')]
     private Collection $familyMembers;
@@ -101,12 +101,12 @@ class PlannedActivity
 
     public function getComment(): ?string
     {
-        return $this->Comment;
+        return $this->comment;
     }
 
-    public function setComment(?string $Comment): self
+    public function setComment(?string $comment): self
     {
-        $this->Comment = $Comment;
+        $this->comment = $comment;
 
         return $this;
     }

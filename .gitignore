@@ -30,5 +30,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> Studi Project ###
-/public/studi/*
+/public/studi/
 ###< Studi Project ###
