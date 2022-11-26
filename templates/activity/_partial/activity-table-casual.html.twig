@@ -10,9 +10,12 @@
     <tbody>
     {% if casualActivities %}
 
+        {{ dump(casualActivities) }}
+
+        {#
         {% for activity in casualActivities %}
             <tr>
-                <td>{{ activity.date|formatDate }}</td>
+                <td>{{ activity.dayOfWeek|formatDayOfWeek }}</td>
                 <td colspan="{{ getHourGap(dayStart, activity.timeStart) }}"></td>
                 <td colspan="{{ getHourGap(activity.timeStart, activity.timeEnd) }}">
 
@@ -25,6 +28,7 @@
                 <td colspan="{{ getHourGap(activity.timeEnd,  dayEnd) }}"></td>
             </tr>
         {% endfor %}
+        #}
     {% endif %}
     </tbody>
 </table>
